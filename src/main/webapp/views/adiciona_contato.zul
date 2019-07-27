@@ -1,0 +1,56 @@
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/template/template.zul"?>
+<zk >
+	<div self="@define(conteudo)">
+		<window apply="br.com.codenation.acelera.dev.java.controller.ContatoController" 
+		id="windowViewAdicionaContato" title="Adicionar Contato" width="400px" border="normal"
+		>
+			<caption src="/resources/images/icons8-json-64.png"
+				label="SOLICITAR ARQUIVO JSON SERVER">
+			</caption>
+			<vbox>
+				<grid>
+					<columns>
+						<column label=""></column>
+						<column label=""></column>
+					</columns>
+					<rows>
+						<row>
+							<cell>Nome:</cell>
+							<cell>
+								<textbox id="nomeBox" constraint="no empty"></textbox>
+							</cell>
+						</row>
+						<row>
+							<cell>Data:</cell>
+							<cell>
+								<datebox id="dataBox"></datebox>
+							</cell>
+						</row>
+						<row>
+							<cell>Telefone 01:</cell>
+							<cell>
+								<textbox id="telefone1Box"></textbox>
+							</cell>
+						</row>
+						<row>
+							<cell>Telefone 02:</cell>
+							<cell>
+								<textbox id="telefone2Box"></textbox>
+							</cell>
+						</row>
+						<row>
+							<cell>Celular:</cell>
+							<cell>
+								<textbox id="celularBox"></textbox>
+							</cell>
+						</row>
+					</rows>
+				</grid>
+				<hbox>
+					<button id="salvarBt" label="Salvar"></button>
+					<button id="cancelarBt" label="Cancelar"></button>
+				</hbox>
+			</vbox>
+		</window>
+	</div>
+</zk>

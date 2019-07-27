@@ -1,0 +1,9 @@
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/template/template.zul"?>
+<zk>
+	<div self="@define(conteudo)">
+		<label style="font-size:20px">
+			Olá Dev! Seja Bem-Vindo ao projeto de aceleração em React
+			Native JS.
+		</label>
+	</div>
+</zk>

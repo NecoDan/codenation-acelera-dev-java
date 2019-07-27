@@ -1,0 +1,8 @@
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/template/template.zul"?>
+<zk>
+	<div self="@define(conteudo)">
+		<label style="font-size:20px">
+		# Gerar Hash Criptografado
+		</label>
+	</div>
+</zk>

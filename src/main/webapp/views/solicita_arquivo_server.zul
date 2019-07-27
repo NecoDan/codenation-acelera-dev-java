@@ -1,0 +1,46 @@
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/template/template.zul"?>
+<zk>
+	<div self="@define(conteudo)">
+		<window
+			id="windowViewSolicitarArquivo"
+			border="normal"
+			title="SOLICITAR ARQUIVO JSON SERVER " 
+			apply="br.com.codenation.acelera.dev.java.controller.SolicitaArquivoController"
+			viewModel="@id('vm') @init('br.com.codenation.acelera.dev.java.view.RegistroViewModelo')">
+			<caption src="/resources/images/icons8-json-64.png"
+				label="Efetuar solicitação arquivo JSON">
+			</caption>
+			<vbox>
+				<grid>
+					<columns>
+						<column label="" width="200px"></column>
+						<column label=""></column>
+					</columns>
+					<rows>
+						<row>
+							<hlayout>
+								<label sclass="hightlight"
+									width="130px" height="35px">
+									TOKEN ACESSO CODENATION:
+								</label>
+								<cell>
+									<textbox id="tokenBox"
+										constraint="no empty" width="500px" height="35px"
+										focus="true"
+										value="@bind(vm.solicitaArquivoJSON.token)">
+									</textbox>
+								</cell>
+							</hlayout>
+						</row>
+					</rows>
+				</grid>
+				<hbox>
+					<button id="solicitarArquivoBt"
+						label="Solicitar Arquivo" src="/resources/images/json-32.png" width="200px" height="40px" tooltiptext="Enviar solicitação por arquivo JSON">
+					</button>
+					<button id="cancelarBt" label="Cancelar" src="/resources/images/cancel-32.png" width="200px" height="40px" tooltiptext="Retorna páginal inicial"></button>
+				</hbox>
+			</vbox>
+		</window>
+	</div>
+</zk>

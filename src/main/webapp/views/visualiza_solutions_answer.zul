@@ -1,0 +1,44 @@
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/template/template.zul"?>
+<zk>
+	<style src="/resources/css/zk_style.css" />
+	<div self="@define(conteudo)">
+		<window id="windowViewVisualizaSolutionsAnswerDynamic"
+			border="normal" title="ARQUIVOS JSON's IMPORTADOS"
+			apply="br.com.codenation.acelera.dev.java.controller.VisualizaSolutionsAnswerController">
+			<caption src="/resources/images/icons8-json-64.png"
+				label="Exibição Arquivos JSON's">
+			</caption>
+			<vbox>
+				<grid model="${$composer.solutionsAnswerArquivoJson}"
+					rowRenderer="br.com.codenation.acelera.dev.java.relatorio.SimpleRendererSolutionAnswerJson"
+					sclass="narrow">
+					<auxhead>
+						<auxheader
+							label="Arquivo(s) Answers (Respostas) Json's" colspan="8">
+						</auxheader>
+					</auxhead>
+					<columns>
+						<column width="60px"></column>
+						<column hflex="4">Token de Acesso</column>
+						<column hflex="2">Número de Casas</column>
+						<column hflex="4">Cifrado</column>
+						<column hflex="4">Decifrado</column>
+						<column hflex="4">Criptografado</column>
+						<column hflex="4">Status</column>
+						<column width="130px"></column>
+					</columns>
+				</grid>
+				<hbox>
+					<checkbox id="chkSelecionarTodos"
+						label="Selecionar Todos">
+					</checkbox>
+				</hbox>
+				<hbox>
+					<button id="voltarBt" label="Voltar"
+						src="/resources/images/voltar-32.png" height="40px">
+					</button>
+				</hbox>
+			</vbox>
+		</window>
+	</div>
+</zk>

@@ -1,0 +1,93 @@
+<?page title="Página Inicial - Acelera Dev Codenation" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<style src="/resources/css/zk_style.css" />
+	<style src="resources/css/bootstrap.css" />
+	<style src="resources/css/bootstrap-theme.css" />
+	<borderlayout>
+		<north height="100px" sclass="banner">
+			<div>
+				<hbox align="center">
+					<a href="index.zul">
+						<image src="/resources/images/codenation.png"
+							height="90px">
+						</image>
+					</a>
+					<div sclass="child">
+						<label style="font-size:50px">
+							Acelera Dev Codenation - React Native
+						</label>
+
+					</div>
+				</hbox>
+			</div>
+		</north>
+
+		<west width="260px" minsize="200" maxsize="250"
+			splittable="true" collapsible="true">
+			<grid>
+				<columns>
+					<column width="36px"></column>
+					<column></column>
+				</columns>
+
+				<rows>
+					<row>
+						<image
+							src="/resources/images/icons8-json-64.png" height="32px">
+						</image>
+						<a href="/views/solicita_arquivo_server.zul">
+							Solicitar Arquivo Servidor
+						</a>
+					</row>
+					<row>
+						<image src="/resources/images/key.png"
+							height="32px">
+						</image>
+						<a href="/views/decifra_criptografia.zul">
+							Decifrar Criptografia
+						</a>
+					</row>
+					<row>
+						<image src="/resources/images/icons8-hash.png"
+							height="32px">
+						</image>
+						<a href="/views/gera_hash_criptografado.zul">
+							Gerar Hash Criptografado
+						</a>
+					</row>
+					<row>
+						<image src="/resources/images/produto.png"
+							height="32px">
+						</image>
+						<a href="/views/envia_solucao.zul">
+							Enviar Solução Servidor
+						</a>
+					</row>
+<!-- 					<row> -->
+<!-- 						<image src="/resources/images/add_contato.png" -->
+<!-- 							height="32px"> -->
+<!-- 						</image> -->
+<!-- 						<a href="/views/adiciona_contato.zul"> -->
+<!-- 							Adiciona Contato -->
+<!-- 						</a> -->
+<!-- 					</row> -->
+				</rows>
+
+			</grid>
+		</west>
+
+		<center self="@insert(conteudo)"></center>
+
+		<south height="100px" hflex="1" sclass="rodape">
+			<div align="center">
+				<vbox align="center">
+					Acelera Dev Codenation ${desktop.webApp.version}
+					<a href="https://github.com/NecoDan"
+						target="_blank">
+						Desenvolvedor Responsável
+					</a>
+				</vbox>
+			</div>
+		</south>
+	</borderlayout>
+</zk>

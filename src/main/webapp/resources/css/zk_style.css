@@ -1,0 +1,73 @@
+.banner {
+	background-color: #27283C;
+	color: white;
+	padding: 5px 10px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+}
+
+.rodape {
+	background-color: #27283C;
+	color: white;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.myButtonClassStyle.z-button .z-button-cm {
+	font-family: sans-serif; /*PRO*/
+	color: #FFFF00; /*PRO*/
+	background-color: #FF8080; /*PRO*/
+	background-image: none; /*PRO*/
+	background-position: center center;
+}
+
+.myButtonClassStyle.z-button .z-button-tl {
+	background-color: #FF8080; /*PRO*/
+	background-image: none; /*PRO*/
+	background-position: top left;
+}
+
+.myButtonClassStyle.z-button .z-button-tm {
+	background-color: #FF8080; /*PRO*/
+	background-image: none; /*PRO*/
+	background-position: top center;
+}
+
+.myButtonClassStyle.z-button .z-button-tr {
+	background-color: #FF8080; /*PRO*/
+	background-image: none; /*PRO*/
+	background-position: top right;
+}
+
+.myButtonClassStyle.z-button .z-button-bl {
+	background-color: #FF8080; /*PRO*/
+	background-image: none; /*PRO*/
+	background-position: bottom left;
+}
+
+.myButtonClassStyle.z-button .z-button-bm {
+	background-color: #FF8080; /*PRO*/
+	background-image: none; /*PRO*/
+	background-position: bottom center;
+}
+
+.myButtonClassStyle.z-button .z-button-br {
+	background-color: #FF8080; /*PRO*/
+	background-image: none; /*PRO*/
+	background-position: bottom right;
+}
+
+.myButtonClassStyle.z-button .z-button-cl {
+	background-color: #FF8080; /*PRO*/
+	background-image: none; /*PRO*/
+	background-position: center left;
+}
+
+.myButtonClassStyle.z-button .z-button-cr {
+	background-color: #FF8080; /*PRO*/
+	background-image: none; /*PRO*/
+	background-position: center right;
+}
+
+.narrow	tr.z-row td.z-row-inner { 
+	padding: 0 5px; 
+}
