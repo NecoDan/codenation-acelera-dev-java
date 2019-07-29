@@ -20,14 +20,24 @@ public interface SolicitaArquivoNegocio {
 	 * @param solicitaArquivoJSON
 	 * @return void
 	 */
-	public SolicitaArquivoJson solicitarArquivo(SolicitaArquivoJson solicitaArquivoJSON) throws NegocioException;
+	public SolicitaArquivoJson solicitarArquivo(SolicitaArquivoJson solicitaArquivoJson) throws NegocioException;
 
 	/**
 	 * @author Daniel Santos
-	 * @since 21/07/2019 salvarArquivo
-	 * @param solicitaArquivoJSON
+	 * @since 21/07/2019
+	 * @category salvarArquivo
+	 * @param solicitaArquivoJson
+	 * @return uma instância de {@link ArquivoJson}
+	 */
+	public ArquivoJson salvarArquivo(SolicitaArquivoJson solicitaArquivoJson) throws NegocioException;
+
+	/**
+	 * @author Daniel Santos
+	 * @since 27/07/2019
+	 * @category atualizarArquivo
+	 * @param solicitaArquivoJson uma instância de {@linkf SolicitaArquivoJson}
 	 * @return void
 	 */
-	public ArquivoJson salvarArquivo(SolicitaArquivoJson solicitaArquivoJSON) throws NegocioException;
+	public void atualizarArquivo(ArquivoJson ArquivoJson) throws NegocioException;
 
 }

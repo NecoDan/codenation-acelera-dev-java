@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.com.codenation.acelera.dev.java.exception.NegocioException;
 import br.com.codenation.acelera.dev.java.modelo.ArquivoJson;
+import br.com.codenation.acelera.dev.java.modelo.SolicitaArquivoJson;
 import br.com.codenation.acelera.dev.java.modelo.SolutionAnswerArquivoJson;
 
 public interface SolutionAnswerArquivoJsonNegocio {
@@ -12,23 +13,37 @@ public interface SolutionAnswerArquivoJsonNegocio {
 	/**
 	 * @author Daniel Santos
 	 * @since 23/07/2019 recuperarSolutionAnswerArquivoJson
-	 * @param respostaArquivoJson uma instância não nula e válida de
-	 *                            {@link ArquivoJson}
+	 * @param token uma instância não nula e válida de {@link String}
 	 * @return {@link SolutionAnswerArquivoJson} uma instância de
 	 *         {@link SolutionAnswerArquivoJson}
 	 */
-	public SolutionAnswerArquivoJsonNegocio recuperarSolutionAnswerArquivoJson(String token) throws NegocioException;
+	public SolutionAnswerArquivoJson recuperarSolutionAnswerArquivoJson(String token) throws NegocioException;
+
+	/**
+	 * @author Daniel Santos
+	 * @since 27/07/2019 processarSolicitacaoArquivo
+	 * @param token uma instância não nula e válida de {@link String}
+	 * @return {@link SolutionAnswerArquivoJson} uma instância de
+	 *         {@link SolutionAnswerArquivoJson}
+	 */
+	public SolutionAnswerArquivoJson processarSolicitacaoArquivo(String token) throws NegocioException;
+	
+	/**
+	 * @author Daniel Santos
+	 * @since 27/07/2019 processarSolicitacaoArquivo
+	 * @param solicitaArquivoJson uma instância não nula e válida de {@link SolicitaArquivoJson}
+	 * @return {@link SolutionAnswerArquivoJson} uma instância de
+	 *         {@link SolutionAnswerArquivoJson}
+	 */
+	public SolutionAnswerArquivoJson processarSolicitacaoArquivo(SolicitaArquivoJson solicitaArquivoJson) throws NegocioException;
 
 	/**
 	 * @author Daniel Santos
 	 * @since 23/07/2019 recuperarRespostaArquivoJsonExistente
-	 * @param recuperarSolutionsAnswerArquivoJson uma instância não nula e válida de
-	 *                                            {@link ArquivoJson}
 	 * @return {@link ArrayList} uma lista de instâncias de
 	 *         {@link SolutionAnswerArquivoJson}
 	 */
-	public ArrayList<SolutionAnswerArquivoJson> recuperarSolutionsAnswerArquivoJson(String token)
-			throws NegocioException;
+	public ArrayList<SolutionAnswerArquivoJson> recuperarTodos() throws NegocioException;
 
 	/**
 	 * @author Daniel Santos

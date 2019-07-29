@@ -1,7 +1,5 @@
 package br.com.codenation.acelera.dev.java.controller;
 
-import java.util.HashMap;
-
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.SelectorComposer;
@@ -14,24 +12,24 @@ import org.zkoss.zul.Window;
 import br.com.codenation.acelera.dev.java.modelo.SolutionAnswerArquivoJson;
 import br.com.codenation.acelera.dev.java.view.RegistroViewModelo;
 
-public class DecifraCriptografiaController extends SelectorComposer<Component> {
+public class GeraHashResumoCriptografadoController extends SelectorComposer<Component> {
 
 	private static final long serialVersionUID = 1L;
 
-	private RegistroViewModelo viewModelDecifraCriptografia;
+	private RegistroViewModelo viewModelGeraHashResumoCriptografado;
 
 	private SolutionAnswerArquivoJson solutionAnswerArquivoJson;
 
 	@Wire
-	private Window windowViewDecifrarCriptografia;
-	
+	private Window windowViewGerarHashCriptografado;
+
 	@Wire
 	private Textbox tokenBox;
-	
-	public DecifraCriptografiaController() {
+
+	public GeraHashResumoCriptografadoController() {
 		super();
-		this.viewModelDecifraCriptografia = new RegistroViewModelo();
-		this.solutionAnswerArquivoJson = this.viewModelDecifraCriptografia.getSolutionAnswerArquivoJson();
+		this.viewModelGeraHashResumoCriptografado = new RegistroViewModelo();
+		this.solutionAnswerArquivoJson = this.viewModelGeraHashResumoCriptografado.getSolutionAnswerArquivoJson();
 	}
 
 	@Listen("onChange=#tokenBox")
@@ -43,8 +41,6 @@ public class DecifraCriptografiaController extends SelectorComposer<Component> {
 	@Listen("onClick=#buscarArquivoAnswerBt")
 	public void clicouEmBtSolicitarArquivo() {
 		boolean verificaToken = Boolean.FALSE;
-		final HashMap<String, Object> mapParameters = new HashMap<String, Object>();
-		mapParameters.put("token", this.solutionAnswerArquivoJson.getToken());
 
 		if (this.solutionAnswerArquivoJson == null) {
 			Messagebox.show("Erro na aplicação. Instância não inicializada", "Erro", Messagebox.OK, Messagebox.ERROR);
@@ -58,12 +54,10 @@ public class DecifraCriptografiaController extends SelectorComposer<Component> {
 		}
 
 		Executions.getCurrent().sendRedirect("/views/visualiza_solutions_answer.zul");
-		// Executions.getCurrent().createComponents("/views/visualiza_solutions_answer.zul", null, mapParameters);
 	}
 
 	@Listen("onClick=#cancelarBt")
 	public void clicouEmBtCancelar() {
 		Executions.getCurrent().sendRedirect("/index.zul");
 	}
-
 }

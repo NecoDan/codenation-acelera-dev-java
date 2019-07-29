@@ -16,11 +16,11 @@ import com.google.gson.Gson;
 
 import br.com.codenation.acelera.dev.java.exception.NegocioException;
 import br.com.codenation.acelera.dev.java.modelo.ArquivoJson;
-import br.com.codenation.acelera.dev.java.modelo.SolutionAnswerArquivoJson;
 
 public class ArquivoNegocioImpl implements ArquivoNegocio {
 
 	private static final String DIRETORIO_PADRAO_ARQUIVOS = System.getProperty("user.home") + "/file-json-desafio/";
+	
 	private static final String NOME_PADRAO_ARQUIVO_JSON = "answer.json";
 
 	public ArquivoNegocioImpl() {
@@ -28,6 +28,11 @@ public class ArquivoNegocioImpl implements ArquivoNegocio {
 
 	@Override
 	public void salvarArquivoDisco(ArquivoJson arquivoJson) throws NegocioException {
+		this.validar(arquivoJson);
+		this.salvarJsonArquivo(arquivoJson);
+	}
+	
+	private void validar(ArquivoJson arquivoJson) throws NegocioException {
 		if (arquivoJson == null)
 			throw new NegocioException("Arquivo de resposta inválido e/ou inexistente.");
 
@@ -37,7 +42,9 @@ public class ArquivoNegocioImpl implements ArquivoNegocio {
 		if (!arquivoJson.isNumeroCasasValido())
 			throw new NegocioException(
 					"Não é possível decifrar o texto criptografado sem a quantidade de casas: inválida e/ou inexistente.");
-
+	}
+	
+	private void salvarJsonArquivo(ArquivoJson arquivoJson) throws NegocioException{
 		Gson gSonObject = new Gson();
 		String conteudoArquivo = gSonObject.toJson(arquivoJson);
 
@@ -57,6 +64,35 @@ public class ArquivoNegocioImpl implements ArquivoNegocio {
 		}
 	}
 	
+	@Override
+	public void atualizarArquivoDisco(ArquivoJson arquivoJson) throws NegocioException {
+		this.validar(arquivoJson);
+
+		File fileArquivoDiretorio = this.isDiretorioPadraoValido();
+
+		if (fileArquivoDiretorio.listFiles().length <= 0)
+			throw new NegocioException("Diretório padrão inválido e/ou inexistente contendo os arquivos JSON's.");
+
+		File fileArquivoDiretorioJSON = this.procurar(fileArquivoDiretorio, Boolean.TRUE, arquivoJson.getToken());
+
+		if (fileArquivoDiretorioJSON == null)
+			throw new NegocioException("Diretório padrão inválido e/ou inexistente contendo os arquivos JSON's.");
+
+		File fileArquivoJSON = this.procurar(fileArquivoDiretorioJSON, Boolean.FALSE, NOME_PADRAO_ARQUIVO_JSON);
+
+		if (fileArquivoDiretorioJSON.exists() && fileArquivoJSON != null) {
+			fileArquivoJSON.delete();
+			fileArquivoDiretorioJSON.delete();
+		} else if (fileArquivoDiretorioJSON.exists() && fileArquivoJSON == null) {
+			fileArquivoDiretorioJSON.delete();
+		} else {
+			throw new NegocioException("Não foi possível encontrar o arquivo JSON.");
+		}
+
+		this.salvarJsonArquivo(arquivoJson);
+	}
+	
+	@Override
 	public File isDiretorioPadraoValido() throws NegocioException {
 		File arquivoDiretorio = new File(DIRETORIO_PADRAO_ARQUIVOS);
 
@@ -71,6 +107,23 @@ public class ArquivoNegocioImpl implements ArquivoNegocio {
 
 		return arquivoDiretorio;
 	}
+	
+	@Override
+	public File recuperarArquivoDefaultAnswer(String token) throws NegocioException {
+		File arquivoJSON = null;		
+		File arquivoDiretorio = this.isDiretorioPadraoValido();
+
+		if (arquivoDiretorio.listFiles().length <= 0)
+			return null;
+
+		File arquivoDiretorioJSON = this.procurar(arquivoDiretorio, Boolean.TRUE, token);
+
+		if (arquivoDiretorioJSON == null)
+			throw new NegocioException("Diretório padrão inválido e/ou inexistente contendo os arquivos JSON's.");
+
+		arquivoJSON = this.procurar(arquivoDiretorioJSON, Boolean.FALSE, NOME_PADRAO_ARQUIVO_JSON);
+		return arquivoJSON;
+	}
 
 	@Override
 	public ArquivoJson recuperarRespostaArquivoJsonExistente(String token) throws NegocioException {
@@ -78,10 +131,6 @@ public class ArquivoNegocioImpl implements ArquivoNegocio {
 
 		if (arquivoDiretorio.listFiles().length <= 0)
 			return null;
-
-		List<ArquivoJson> arquivosJson = new ArrayList<ArquivoJson>();
-		JSONObject jSonObject;
-		JSONParser jSonParser = new JSONParser();
 
 		File arquivoDiretorioJSON = this.procurar(arquivoDiretorio, Boolean.TRUE, token);
 
@@ -92,6 +141,10 @@ public class ArquivoNegocioImpl implements ArquivoNegocio {
 
 		if (arquivoJSON == null)
 			throw new NegocioException("Não foi possível encontrar o arquivo JSON.");
+
+		List<ArquivoJson> arquivosJson = new ArrayList<ArquivoJson>();
+		JSONObject jSonObject;
+		JSONParser jSonParser = new JSONParser();
 
 		try {
 			jSonObject = (JSONObject) jSonParser.parse(new FileReader(arquivoJSON.getAbsoluteFile()));
@@ -117,36 +170,6 @@ public class ArquivoNegocioImpl implements ArquivoNegocio {
 			optionalArquivoJson = res;
 
 		return optionalArquivoJson.get();
-	}
-	
-
-	@Override
-	public ArrayList<SolutionAnswerArquivoJson> recuperarArquivosJson() throws NegocioException {
-		ArrayList<SolutionAnswerArquivoJson> solutionsAnswerArquivoJsons = null;
-
-		try {
-			File arquivoDiretorio = this.isDiretorioPadraoValido();
-
-			if (arquivoDiretorio.listFiles().length <= 0)
-				return null;
-		
-			solutionsAnswerArquivoJsons = new ArrayList<SolutionAnswerArquivoJson>();
-			
-			for (File file : arquivoDiretorio.listFiles()) {
-				String strFileNameToken = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("/")+1); 
-				
-				if (strFileNameToken != null && !strFileNameToken.isEmpty()) {
-					SolutionAnswerArquivoJson solutionAnswerArquivoJson = new SolutionAnswerArquivoJson(strFileNameToken);
-					solutionAnswerArquivoJson.setArquivoJson(this.recuperarRespostaArquivoJsonExistente(strFileNameToken));
-
-					solutionsAnswerArquivoJsons.add(solutionAnswerArquivoJson);
-				}
-			}
-		} catch (NegocioException e) {
-			throw new NegocioException(e.getMessage(), e.getCause());
-		}
-
-		return solutionsAnswerArquivoJsons;
 	}
 
 	private File criarDiretorioPadraoArquivoToken() {
@@ -178,5 +201,4 @@ public class ArquivoNegocioImpl implements ArquivoNegocio {
 
 		return arquivoBusca;
 	}
-
 }

@@ -1,7 +1,6 @@
 package br.com.codenation.acelera.dev.java.controller;
 
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -14,29 +13,26 @@ import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
 import br.com.codenation.acelera.dev.java.exception.NegocioException;
-import br.com.codenation.acelera.dev.java.modelo.ArquivoJson;
 import br.com.codenation.acelera.dev.java.modelo.SolicitaArquivoJson;
-import br.com.codenation.acelera.dev.java.negocio.SolicitaArquivoNegocio;
-import br.com.codenation.acelera.dev.java.negocio.SolicitaArquivoNegocioImpl;
+import br.com.codenation.acelera.dev.java.modelo.SolutionAnswerArquivoJson;
+import br.com.codenation.acelera.dev.java.negocio.SolutionAnswerArquivoJsonNegocio;
+import br.com.codenation.acelera.dev.java.negocio.SolutionAnswerArquivoJsonNegocioImpl;
 import br.com.codenation.acelera.dev.java.view.RegistroViewModelo;
 
 public class SolicitaArquivoController extends SelectorComposer<Component> {
 
 	private static final long serialVersionUID = 1L;
 
-	private SolicitaArquivoNegocio solicitaArquivoNegocio;
-
 	private RegistroViewModelo viewModelSolicitaArquivoJSON;
 
-	private SolicitaArquivoJson solicitaArquivoJSON;
+	private SolicitaArquivoJson solicitaArquivoJson;
 
 	private Boolean respostaMessageBox;
 
 	public SolicitaArquivoController() {
 		super();
 		this.viewModelSolicitaArquivoJSON = new RegistroViewModelo();
-		this.solicitaArquivoJSON = this.viewModelSolicitaArquivoJSON.getSolicitaArquivoJSON();
-		this.solicitaArquivoNegocio = new SolicitaArquivoNegocioImpl();
+		this.solicitaArquivoJson = this.viewModelSolicitaArquivoJSON.getSolicitaArquivoJSON();
 		this.respostaMessageBox = Boolean.FALSE;
 	}
 
@@ -49,44 +45,51 @@ public class SolicitaArquivoController extends SelectorComposer<Component> {
 	@Listen("onChange=#tokenBox")
 	public void pressEnterInputTextBoxToken() {
 		String token = tokenBox.getValue();
-		this.solicitaArquivoJSON.setToken(token);
+		this.solicitaArquivoJson.setToken(token);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Listen("onClick=#solicitarArquivoBt")
 	public void clicouEmBtSolicitarArquivo() {
-		if (this.solicitaArquivoJSON == null) {
+		if (this.solicitaArquivoJson == null) {
 			Messagebox.show("Erro na aplicação. Instância não inicializada", "Erro", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
 
-		if (!this.solicitaArquivoJSON.isTokenValido()) {
+		if (!this.solicitaArquivoJson.isTokenValido()) {
 			Messagebox.show("Nenhum token de acesso foi informado. Informe-o e tente novamente.", "Aviso",
 					Messagebox.OK, Messagebox.EXCLAMATION);
 			return;
 		}
 
-		this.dMessageBoxQuestion();
+		Messagebox.show("Desejas realmente solicitar arquivo ao servidor?", "Pergunta",
+				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION, new EventListener() {
+					@Override
+					public void onEvent(Event event) throws Exception {
+						if (Messagebox.ON_CANCEL.equals(event.getName())) {
+							Messagebox.show("Solicitação cancelada.", "Informação", Messagebox.OK,
+									Messagebox.INFORMATION);
+							return;
+						}
 
-		if (!isAcceptOkMessageBox()) {
-			Messagebox.show("Solicitação cancelada.", "Informação", Messagebox.OK, Messagebox.INFORMATION);
-			return;
-		}
+						try {
+							SolutionAnswerArquivoJsonNegocio solutionAnswerArquivoJsonNegocio = new SolutionAnswerArquivoJsonNegocioImpl();
+							SolutionAnswerArquivoJson solutionAnswerArquivoJson = solutionAnswerArquivoJsonNegocio
+									.processarSolicitacaoArquivo(solicitaArquivoJson);
 
-		try {
-			ArquivoJson arquivoJson = solicitaArquivoNegocio.salvarArquivo(this.solicitaArquivoJSON);
+							String mensagemRetornoUsuario = (solutionAnswerArquivoJson.isValidoEImportado())
+									? "Arquivo referente ao token já encontra-se importado e salvo."
+									: "Salvo com sucesso.";
 
-			String mensagemRetornoUsuario = (arquivoJson.isImportadoSalvo())
-					? "Arquivo referente ao token já encontra-se importado e salvo."
-					: "Salvo com sucesso.";
-
-			Messagebox.show(mensagemRetornoUsuario, "Informação", Messagebox.OK, Messagebox.INFORMATION);
-			this.showNotify(mensagemRetornoUsuario, windowViewSolicitarArquivo);
-			this.limparCampos();
-
-		} catch (NegocioException e) {
-			Messagebox.show(e.getMessage(), "Erro", Messagebox.OK, Messagebox.ERROR);
-			e.printStackTrace();
-		}
+							Messagebox.show(mensagemRetornoUsuario, "Informação", Messagebox.OK,
+									Messagebox.INFORMATION);
+							limparCampos();
+						} catch (NegocioException e) {
+							Messagebox.show(e.getMessage(), "Erro", Messagebox.OK, Messagebox.ERROR);
+							e.printStackTrace();
+						}
+					}
+				});
 	}
 
 	@Listen("onClick=#cancelarBt")
@@ -100,6 +103,7 @@ public class SolicitaArquivoController extends SelectorComposer<Component> {
 
 	private void limparCampos() {
 		this.tokenBox.setValue("");
+		Executions.getCurrent().sendRedirect("/views/solicita_arquivo_server.zul");
 	}
 
 	private Boolean isAcceptOkMessageBox() {
@@ -108,16 +112,6 @@ public class SolicitaArquivoController extends SelectorComposer<Component> {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void dMessageBoxQuestion() {
-		Messagebox.show("Desejas realmente solicitar arquivo ao servidor?", "Pergunta",
-				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION, new EventListener() {
-					@Override
-					public void onEvent(Event event) throws Exception {
-						if (Messagebox.ON_OK.equals(event.getName())) {
-							respostaMessageBox = Boolean.TRUE;
-						} else if (Messagebox.ON_CANCEL.equals(event.getName())) {
-							respostaMessageBox = Boolean.FALSE;
-						}
-					}
-				});
+
 	}
 }

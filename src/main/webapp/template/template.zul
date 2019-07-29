@@ -22,7 +22,7 @@
 			</div>
 		</north>
 
-		<west width="260px" minsize="200" maxsize="250"
+		<west width="200px" minsize="200" maxsize="220"
 			splittable="true" collapsible="true">
 			<grid>
 				<columns>

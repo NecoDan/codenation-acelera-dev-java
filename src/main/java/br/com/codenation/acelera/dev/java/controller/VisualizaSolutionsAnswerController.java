@@ -19,11 +19,13 @@ public class VisualizaSolutionsAnswerController extends SelectorComposer<Compone
 
 	@Wire
 	private Window windowViewVisualizaSolutionsAnswerDynamic;
-	
-	private String token;
+
+	public VisualizaSolutionsAnswerController() {
+		super();
+	}
 
 	private final ListModel<SolutionAnswerArquivoJson> solutionsAnswerArquivoJson = new ListModelList<SolutionAnswerArquivoJson>(
-			new DtoSolutionAnswerJson().getSolutionAnswerArquivoJson());
+			new DtoSolutionAnswerJson("").getSolutionAnswerArquivoJson());
 
 	public ListModel<SolutionAnswerArquivoJson> getSolutionsAnswerArquivoJson() {
 		return solutionsAnswerArquivoJson;
@@ -33,9 +35,9 @@ public class VisualizaSolutionsAnswerController extends SelectorComposer<Compone
 	public void clicouEmBtVoltar() {
 		Executions.getCurrent().sendRedirect("/views/decifra_criptografia.zul");
 	}
-	
+
 	@Listen("onClick=#chkSelecionarTodos")
 	public void clicouCheckBoxSelecionarTodos() {
 		Messagebox.show("Chegou aqui ao clicar no checkbox", "Informação", Messagebox.OK, Messagebox.INFORMATION);
-	}	
+	}
 }

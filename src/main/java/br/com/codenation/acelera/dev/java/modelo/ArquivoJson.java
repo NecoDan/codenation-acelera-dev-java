@@ -12,10 +12,6 @@ public class ArquivoJson {
 
 	private String resumo_criptografico;
 
-	private Boolean importado = Boolean.FALSE;
-
-	private Boolean importadoSalvo = Boolean.FALSE;
-
 	public ArquivoJson(Integer numeroCasas, String token, String cifrado, String decifrado,
 			String resumoCriptografico) {
 		this.numero_casas = numeroCasas;
@@ -68,42 +64,33 @@ public class ArquivoJson {
 		this.resumo_criptografico = resumoCriptografico;
 	}
 
-	/* ################## Outros Getters & Setters ################### */
-
-	public Boolean isImportado() {
-		return importado;
-	}
-
-	public Boolean isImportadoSalvo() {
-		return importadoSalvo;
-	}
-
-	/* ############################ Métodos De Ação ################### */
-	
-	public void importado() {
-		this.importado = Boolean.TRUE;
-	}
-
-	public void importadoSalvo() {
-		this.importadoSalvo = Boolean.TRUE;
-	}
-
 	public boolean isTokenValido() {
-		return (this.token != null || this.token != null && !token.isEmpty());
+		return (this.token != null && !token.isEmpty());
 	}
 
 	public boolean isNumeroCasasValido() {
-		return (this.numero_casas > 0);
+		return (this.numero_casas != null && this.numero_casas > 0);
+	}
+	
+	public boolean isCifradoValido() {
+		return (this.cifrado != null && !this.cifrado.isEmpty());
+	}
+	
+	public boolean isDecifradoValido() {
+		return (this.decifrado != null && !this.decifrado.isEmpty());
+	}
+	
+	public boolean isResumoCriptograficoValido() {
+		return (this.resumo_criptografico != null && !this.resumo_criptografico.isEmpty());
 	}
 
 	public boolean isSolucionado() {
-		return (this.decifrado != null && !this.decifrado.isEmpty() && this.resumo_criptografico != null
-				&& !this.resumo_criptografico.isEmpty());
+		return (isDecifradoValido() && isResumoCriptograficoValido());
 	}
 
 	@Override
 	public String toString() {
-		return "ArquivoJson [numeroCasas=" + numero_casas + ", token=" + token + ", cifrado=" + cifrado
+		return "[numeroCasas=" + numero_casas + ", token=" + token + ", cifrado=" + cifrado
 				+ ", decifrado=" + decifrado + ", resumoCriptografico=" + resumo_criptografico + "]";
 	}
 

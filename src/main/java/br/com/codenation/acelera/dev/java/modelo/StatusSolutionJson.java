@@ -104,6 +104,12 @@ public enum StatusSolutionJson {
 		return null;
 	}
 
+	public String toString() {
+		String strStatus = "";
+		strStatus = StatusSolutionJson.toString(this);
+		return strStatus;
+	}
+
 	public static String toString(StatusSolutionJson statusSolutionJson) {
 		switch (statusSolutionJson) {
 		case NAO_INFORMADO:

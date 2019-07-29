@@ -22,10 +22,7 @@ public class SolicitaArquivoNegocioImpl implements SolicitaArquivoNegocio {
 	public String solicitarArquivo(String token) throws NegocioException {
 		String conteudoJSON;
 
-		if (token == null)
-			throw new NegocioException(new SolicitarArquivoException().getMessage());
-
-		if (token.isEmpty())
+		if (token == null || (token != null && token.isEmpty()))
 			throw new NegocioException(new SolicitarArquivoException().getMessage());
 
 		String urlGET = URL_SOLICITACAO_ARQUIVO_CODENATION + token;
@@ -38,55 +35,54 @@ public class SolicitaArquivoNegocioImpl implements SolicitaArquivoNegocio {
 	}
 
 	@Override
-	public SolicitaArquivoJson solicitarArquivo(SolicitaArquivoJson solicitaArquivoJSON) throws NegocioException {
-		if (solicitaArquivoJSON == null)
+	public SolicitaArquivoJson solicitarArquivo(SolicitaArquivoJson solicitaArquivoJson) throws NegocioException {
+		if (solicitaArquivoJson == null)
 			throw new NegocioException(new SolicitarArquivoException().getMessage());
 
-		if (!solicitaArquivoJSON.isTokenValido())
+		if (!solicitaArquivoJson.isTokenValido())
 			throw new NegocioException(new SolicitarArquivoException().getMessage());
 
-		solicitaArquivoJSON.setConteudoJSON(this.solicitarArquivo(solicitaArquivoJSON.getToken()));
-		return solicitaArquivoJSON;
+		solicitaArquivoJson.setConteudoJSON(this.solicitarArquivo(solicitaArquivoJson.getToken()));
+		return solicitaArquivoJson;
 	}
 
 	@Override
-	public ArquivoJson salvarArquivo(SolicitaArquivoJson solicitaArquivoJSON) throws NegocioException {
+	public ArquivoJson salvarArquivo(SolicitaArquivoJson solicitaArquivoJson) throws NegocioException {
 		ArquivoJson arquivoJson = null;
-		
-		if (solicitaArquivoJSON == null)
+
+		if (solicitaArquivoJson == null)
 			throw new NegocioException(new SolicitarArquivoException().getMessage());
 
-		if (!solicitaArquivoJSON.isTokenValido())
+		if (!solicitaArquivoJson.isTokenValido())
 			throw new NegocioException(new SolicitarArquivoException().getMessage());
 
 		try {
-			arquivoJson = this.arquivoNegocio.recuperarRespostaArquivoJsonExistente(solicitaArquivoJSON.getToken());			
+			arquivoJson = this.arquivoNegocio.recuperarRespostaArquivoJsonExistente(solicitaArquivoJson.getToken());
 		} catch (NegocioException e) {
 			throw new NegocioException(e.getMessage());
 		}
-		
-		if (arquivoJson != null) {
-			arquivoJson.importadoSalvo();
+
+		if (arquivoJson != null)
 			return arquivoJson;
-		}
-		
-		if (arquivoJson == null) {			
-			solicitaArquivoJSON = this.solicitarArquivo(solicitaArquivoJSON);
-			
-			if (!solicitaArquivoJSON.isConteudoValido())
+
+		if (arquivoJson == null) {
+			solicitaArquivoJson = this.solicitarArquivo(solicitaArquivoJson);
+
+			if (!solicitaArquivoJson.isConteudoValido())
 				throw new NegocioException(new SolicitarArquivoException().getMessage());
-			
+
 			Gson gson = new Gson();
-			arquivoJson = gson.fromJson(solicitaArquivoJSON.getConteudoJSON(),
-					ArquivoJson.class);
-			
+			arquivoJson = gson.fromJson(solicitaArquivoJson.getConteudoJSON(), ArquivoJson.class);
+
 			this.arquivoNegocio.salvarArquivoDisco(arquivoJson);
 		}
-		
-		if (arquivoJson != null)
-			arquivoJson.importado();
-		
+
 		return arquivoJson;
+	}
+
+	@Override
+	public void atualizarArquivo(ArquivoJson arquivoJson) throws NegocioException {
+		this.arquivoNegocio.atualizarArquivoDisco(arquivoJson);
 	}
 	
 	//	List<Telefone> fones = this.telefones.stream().filter(f -> f.getNumero().equals(telefone.getNumero())).collect(Collectors.toList());

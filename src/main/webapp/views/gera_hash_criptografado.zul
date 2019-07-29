@@ -1,8 +1,46 @@
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/template/template.zul"?>
 <zk>
 	<div self="@define(conteudo)">
-		<label style="font-size:20px">
-		# Gerar Hash Criptografado
-		</label>
+		<window id="windowViewGerarHashCriptografado" border="normal"
+			title="GERAR HASH CRIPTOGRAFADO"
+			apply="br.com.codenation.acelera.dev.java.controller.GeraHashResumoCriptografadoController"
+			viewModel="@id('vm') @init('br.com.codenation.acelera.dev.java.view.RegistroViewModelo')">
+			<caption src="/resources/images/icons8-hash.png"
+				label="Gerar Hash Resumo criptografado arquivo JSON">
+			</caption>
+			<vbox>
+				<grid>
+					<columns>
+						<column label="" width="70px"></column>
+						<column label=""></column>
+					</columns>
+					<rows>
+						<row>
+							<hlayout>
+								<label sclass="hightlight"
+									width="40px" height="35px">
+									TOKEN:
+								</label>
+								<cell>
+									<textbox id="tokenBox"
+										constraint="no empty" width="500px" height="35px" focus="true"
+										value="@bind(vm.solutionAnswerArquivoJson.token)">
+									</textbox>
+								</cell>
+							</hlayout>
+						</row>
+					</rows>
+				</grid>
+				<hbox>
+					<button id="buscarArquivoAnswerBt"
+						label="Buscar Arquivo Answer"
+						src="/resources/images/search-32.png" width="200px" height="40px" tooltiptext="Pesquisar por arquivos importados">
+					</button>
+					<button id="cancelarBt" label="Cancelar"
+						src="/resources/images/cancel-32.png" width="200px" height="40px" tooltiptext="Retorna páginal inicial">
+					</button>
+				</hbox>
+			</vbox>
+		</window>
 	</div>
 </zk>

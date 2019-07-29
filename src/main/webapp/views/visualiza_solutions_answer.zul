@@ -14,29 +14,43 @@
 					sclass="narrow">
 					<auxhead>
 						<auxheader
-							label="Arquivo(s) Answers (Respostas) Json's" colspan="8">
+							label="ARQUIVO(S) ANSWERS JSON'S - RESPOSTAS DESAFIO" colspan="8">
 						</auxheader>
 					</auxhead>
 					<columns>
 						<column width="60px"></column>
-						<column hflex="4">Token de Acesso</column>
-						<column hflex="2">Número de Casas</column>
-						<column hflex="4">Cifrado</column>
-						<column hflex="4">Decifrado</column>
-						<column hflex="4">Criptografado</column>
-						<column hflex="4">Status</column>
-						<column width="130px"></column>
+						<column hflex="5" align="center" sclass="headerGridRelatorio">TOKEN ACESSO</column>
+						<column hflex="2" align="center" sclass="headerGridRelatorio">NUM CASAS</column>
+						<column hflex="4" align="center" sclass="headerGridRelatorio">CIFRADO</column>
+						<column hflex="4" align="center" sclass="headerGridRelatorio">DECIFRADO</column>
+						<column hflex="4" align="center" sclass="headerGridRelatorio">CRIPTOGRAFADO</column>
+						<column hflex="4" align="center" sclass="headerGridRelatorio">STATUS</column>
+						<column width="130px" align="center" sclass="headerGridRelatorio">ACTION</column>
 					</columns>
 				</grid>
-				<hbox>
+				<hbox align="center" pack="start" hflex="1">
 					<checkbox id="chkSelecionarTodos"
-						label="Selecionar Todos">
+						label="Selecionar Todos" style="font-weight:bold; font-size:13px">
+					</checkbox>
+				</hbox>
+				<hbox align="center" pack="end" hflex="1">
+					<checkbox checked="false" disabled="true"
+						label="CIFRADO/INCOMPLETO"
+						style="font-weight:bold; font-size:13px; color:#b71c1c">
+					</checkbox>
+					<checkbox checked="false" disabled="true"
+						label="DECIFRADO "
+						style="font-weight:bold; font-size:13px; color:#4caf50">
+					</checkbox>
+					<checkbox checked="false" disabled="true"
+						label="FINALIZADO"
+						style="font-weight:bold; font-size:13px; color:#1a237e">
 					</checkbox>
 				</hbox>
 				<hbox>
 					<button id="voltarBt" label="Voltar"
 						src="/resources/images/voltar-32.png" height="40px">
-					</button>
+					</button>					
 				</hbox>
 			</vbox>
 		</window>
