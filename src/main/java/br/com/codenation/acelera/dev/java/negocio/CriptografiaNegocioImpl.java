@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.util.List;
 
 import br.com.codenation.acelera.dev.java.exception.NegocioException;
 import br.com.codenation.acelera.dev.java.modelo.SolutionAnswerArquivoJson;

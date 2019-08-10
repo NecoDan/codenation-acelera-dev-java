@@ -160,6 +160,7 @@ public class ArquivoNegocioImpl implements ArquivoNegocio {
 
 			arquivosJson.add(arquivoFileJson);
 		} catch (IOException | ParseException e) {
+			System.out.println(e.getMessage());
 			throw new NegocioException(e.getMessage(), e.getCause());
 		}
 

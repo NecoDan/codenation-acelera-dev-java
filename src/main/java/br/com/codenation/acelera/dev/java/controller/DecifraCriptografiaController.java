@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -42,10 +43,8 @@ public class DecifraCriptografiaController extends SelectorComposer<Component> {
 
 	@Listen("onClick=#buscarArquivoAnswerBt")
 	public void clicouEmBtSolicitarArquivo() {
-		boolean verificaToken = Boolean.FALSE;
-		final HashMap<String, Object> mapParameters = new HashMap<String, Object>();
-		mapParameters.put("token", this.solutionAnswerArquivoJson.getToken());
-
+		boolean verificaToken = Boolean.TRUE;
+		
 		if (this.solutionAnswerArquivoJson == null) {
 			Messagebox.show("Erro na aplicação. Instância não inicializada", "Erro", Messagebox.OK, Messagebox.ERROR);
 			return;
@@ -56,14 +55,13 @@ public class DecifraCriptografiaController extends SelectorComposer<Component> {
 					Messagebox.OK, Messagebox.EXCLAMATION);
 			return;
 		}
-
+		
+		Sessions.getCurrent().setAttribute("token", this.solutionAnswerArquivoJson.getToken());
 		Executions.getCurrent().sendRedirect("/views/visualiza_solutions_answer.zul");
-		// Executions.getCurrent().createComponents("/views/visualiza_solutions_answer.zul", null, mapParameters);
 	}
 
 	@Listen("onClick=#cancelarBt")
 	public void clicouEmBtCancelar() {
 		Executions.getCurrent().sendRedirect("/index.zul");
 	}
-
 }

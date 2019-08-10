@@ -25,7 +25,7 @@ public class VisualizaSolutionsAnswerController extends SelectorComposer<Compone
 	}
 
 	private final ListModel<SolutionAnswerArquivoJson> solutionsAnswerArquivoJson = new ListModelList<SolutionAnswerArquivoJson>(
-			new DtoSolutionAnswerJson("").getSolutionAnswerArquivoJson());
+			new DtoSolutionAnswerJson().getSolutionAnswerArquivoJson());
 
 	public ListModel<SolutionAnswerArquivoJson> getSolutionsAnswerArquivoJson() {
 		return solutionsAnswerArquivoJson;

@@ -44,15 +44,4 @@ public interface SolutionAnswerArquivoJsonNegocio {
 	 *         {@link SolutionAnswerArquivoJson}
 	 */
 	public ArrayList<SolutionAnswerArquivoJson> recuperarTodos() throws NegocioException;
-
-	/**
-	 * @author Daniel Santos
-	 * @since 23/07/2019 recuperarListaSolutionAnswerArquivoJson
-	 * @param token uma instância não nula e válida de {@link ArquivoJson}
-	 * @return {@link List} uma lista de instâncias de
-	 *         {@link SolutionAnswerArquivoJson}
-	 */
-	public List<SolutionAnswerArquivoJson> recuperarListaSolutionAnswerArquivoJson(String token)
-			throws NegocioException;
-
 }

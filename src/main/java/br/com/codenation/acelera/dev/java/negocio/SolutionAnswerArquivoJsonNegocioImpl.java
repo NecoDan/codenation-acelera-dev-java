@@ -1,25 +1,26 @@
 package br.com.codenation.acelera.dev.java.negocio;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import br.com.codenation.acelera.dev.java.exception.NegocioException;
+import br.com.codenation.acelera.dev.java.exception.RepositoryExcpetion;
 import br.com.codenation.acelera.dev.java.exception.SolicitarArquivoException;
 import br.com.codenation.acelera.dev.java.modelo.ArquivoJson;
 import br.com.codenation.acelera.dev.java.modelo.SolicitaArquivoJson;
 import br.com.codenation.acelera.dev.java.modelo.SolutionAnswerArquivoJson;
 import br.com.codenation.acelera.dev.java.modelo.SolutionAnswerArquivoJsonBuilder;
+import br.com.codenation.acelera.dev.java.repository.SolutionAnswerArquivoJsonRepository;
+import br.com.codenation.acelera.dev.java.repository.SolutionAnswerArquivoJsonRepositoryImpl;
 
 public class SolutionAnswerArquivoJsonNegocioImpl implements SolutionAnswerArquivoJsonNegocio {
 
-	private ArquivoNegocio arquivoNegocio;
-
 	private SolicitaArquivoNegocio solicitaArquivoNegocio;
 
+	private SolutionAnswerArquivoJsonRepository solutionAnswerArquivoJsonRepository;
+
 	public SolutionAnswerArquivoJsonNegocioImpl() {
-		this.arquivoNegocio = new ArquivoNegocioImpl();
 		this.solicitaArquivoNegocio = new SolicitaArquivoNegocioImpl();
+		this.solutionAnswerArquivoJsonRepository = new SolutionAnswerArquivoJsonRepositoryImpl();
 	}
 
 	@Override
@@ -27,24 +28,8 @@ public class SolutionAnswerArquivoJsonNegocioImpl implements SolutionAnswerArqui
 		ArrayList<SolutionAnswerArquivoJson> solutionsAnswerArquivoJsons = null;
 
 		try {
-			File arquivoDiretorio = arquivoNegocio.isDiretorioPadraoValido();
-
-			if (arquivoDiretorio.listFiles().length <= 0)
-				return null;
-
-			solutionsAnswerArquivoJsons = new ArrayList<SolutionAnswerArquivoJson>();
-
-			for (File file : arquivoDiretorio.listFiles()) {
-				String strFileNameToken = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("/") + 1);
-
-				if (strFileNameToken != null && !strFileNameToken.isEmpty()) {
-					solutionsAnswerArquivoJsons.add(SolutionAnswerArquivoJsonBuilder
-							.umNovoSolutionAnswerArquivoJsonAPartir(strFileNameToken)
-							.contendoOArquivo(arquivoNegocio.recuperarRespostaArquivoJsonExistente(strFileNameToken))
-							.constroi());
-				}
-			}
-		} catch (NegocioException e) {
+			solutionsAnswerArquivoJsons = this.solutionAnswerArquivoJsonRepository.recuperarTodos();
+		} catch (RepositoryExcpetion e) {
 			throw new NegocioException(e.getMessage(), e.getCause());
 		}
 
@@ -52,14 +37,17 @@ public class SolutionAnswerArquivoJsonNegocioImpl implements SolutionAnswerArqui
 	}
 
 	@Override
-	public List<SolutionAnswerArquivoJson> recuperarListaSolutionAnswerArquivoJson(String token)
-			throws NegocioException {
-		return this.recuperarTodos();
-	}
-
-	@Override
 	public SolutionAnswerArquivoJson recuperarSolutionAnswerArquivoJson(String token) throws NegocioException {
-		return null;
+		SolutionAnswerArquivoJson solutionAnswerArquivoJson = null;
+
+		try {
+			solutionAnswerArquivoJson = this.solutionAnswerArquivoJsonRepository
+					.recuperarSolutionAnswerArquivoJson(token);
+		} catch (RepositoryExcpetion e) {
+			throw new NegocioException(e.getMessage(), e.getCause());
+		}
+
+		return solutionAnswerArquivoJson;
 	}
 
 	@Override
